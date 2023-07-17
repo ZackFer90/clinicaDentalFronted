@@ -9,6 +9,8 @@ export const updateAuthStateLogin = (token) => {
    store.dispatch(
       setUserInfo({
          id: myDecodedToken.userId,
+         idPatient: myDecodedToken.patientId,
+         IdDoctor: myDecodedToken.doctorId,
          name: myDecodedToken.userNom,
          role: myDecodedToken.userRole,
       })
@@ -21,6 +23,8 @@ export const updateAuthStateLogout = () => {
    store.dispatch(
       setUserInfo({
          id: null,
+         idPatient: null,
+         IdDoctor: null,
          name: null,
          role: null,
       })

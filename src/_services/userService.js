@@ -4,11 +4,25 @@ import { global } from "../_config/global";
 
 const userService = {};
 
-userService.getAllPatient = async (token, page = 1) => {
+// userService.getAllPatient = async (token, page = 1) => {
+//    const options = {
+//       method: "GET",
+//       url: `${global.BASE_API_URL}/admin/getAll-patient`,
+//       params: { page: page },
+//       headers: {
+//          accept: "application/json",
+//          Authorization: `Bearer ${token}`,
+//       },
+//    };
+//    //await sleep(2000); // TODO
+//    const response = await axios.request(options);
+//    return response.data;
+// };
+
+userService.getUser = async (token) => {
    const options = {
       method: "GET",
-      url: `${global.BASE_API_URL}/admin/getAll-patient`,
-      params: { page: page },
+      url: `${global.BASE_API_URL}/user`,
       headers: {
          accept: "application/json",
          Authorization: `Bearer ${token}`,
@@ -19,39 +33,25 @@ userService.getAllPatient = async (token, page = 1) => {
    return response.data;
 };
 
-userService.getStudents = async (token, page = 1) => {
-   const options = {
-      method: "GET",
-      url: `${global.BASE_API_URL}/api/student`,
-      params: { page: page },
-      headers: {
-         accept: "application/json",
-         Authorization: `Bearer ${token}`,
-      },
-   };
-   //await sleep(2000); // TODO
-   const response = await axios.request(options);
-   return response.data;
-};
-
-userService.getProfile = async (token) => {
-   const options = {
-      method: "GET",
-      url: `${global.BASE_API_URL}/api/user/profile`,
-      headers: {
-         accept: "application/json",
-         Authorization: `Bearer ${token}`,
-      },
-   };
-   //await sleep(2000); // TODO
-   const response = await axios.request(options);
-   return response.data;
-};
-
-userService.saveProfile = async (token, user) => {
+userService.modifyUser = async (token, user) => {
    const options = {
       method: "PUT",
-      url: `${global.BASE_API_URL}/api/user/profile`,
+      url: `${global.BASE_API_URL}/user/update-user`,
+      data: user,
+      headers: {
+         accept: "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   };
+   //await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
+};
+
+userService.createAppointment = async (token, user) => {
+   const options = {
+      method: "POST",
+      url: `${global.BASE_API_URL}/user/create-Appointment`,
       data: user,
       headers: {
          accept: "application/json",
@@ -63,5 +63,53 @@ userService.saveProfile = async (token, user) => {
    const response = await axios.request(options);
    return response.data;
 };
+
+userService.getAppointment = async (token) => {
+   const options = {
+      method: "GET",
+      url: `${global.BASE_API_URL}/user/get-Appointmen`,
+      headers: {
+         accept: "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   };
+
+   // await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
+};
+
+userService.modifyAppointment = async (token, user) => {
+   const options = {
+      method: "PUT",
+      url: `${global.BASE_API_URL}/user/update-Appointment`,
+      data: user,
+      headers: {
+         accept: "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   };
+
+   // await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
+};
+
+userService.deleteAppointment = async (token, user) => {
+   const options = {
+      method: "DELETE",
+      url: `${global.BASE_API_URL}/user/delete-user`,
+      data: user,
+      headers: {
+         accept: "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   };
+
+   // await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
+};
+
 
 export default userService;
