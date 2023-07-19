@@ -1,21 +1,21 @@
-import { Typography } from "@mui/material";
-import { Container } from "@mui/system";
 import React from "react";
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { Link } from 'react-router-dom';
+// import { useSelector } from "react-redux";
+
+// const userRole = useSelector((state) => state.auth.userInfo.role);
+// const isAdmin = userRole == "admin";
 
 export default function HomePage() {
    return (
-      <>
-         <Container sx={{ mt: 5 }}>
-            <Typography
-               variant="h1"
-               fontSize={40}
-               align="center"
-               fontWeight={400}
-               gutterBottom
-            >
-               Home
-            </Typography>
-         </Container>
+      <>        
+         <Sidebar>
+            <Menu>
+            {/* {isAdmin && ( */}
+               <MenuItem component={<Link to="/admin" />}> Admin</MenuItem>
+            {/* )} */}
+            </Menu>
+         </Sidebar>;
       </>
    );
 }

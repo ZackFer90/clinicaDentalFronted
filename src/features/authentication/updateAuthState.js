@@ -10,7 +10,7 @@ export const updateAuthStateLogin = (token) => {
       setUserInfo({
          id: myDecodedToken.userId,
          idPatient: myDecodedToken.patientId,
-         IdDoctor: myDecodedToken.doctorId,
+         idDoctor: myDecodedToken.doctorId,
          name: myDecodedToken.userNom,
          role: myDecodedToken.userRole,
       })
@@ -24,7 +24,7 @@ export const updateAuthStateLogout = () => {
       setUserInfo({
          id: null,
          idPatient: null,
-         IdDoctor: null,
+         idDoctor: null,
          name: null,
          role: null,
       })

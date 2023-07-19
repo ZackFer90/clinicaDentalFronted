@@ -53,7 +53,7 @@ export default function LoginPage() {
    useEffect(() => {
       if (isLoggedIn) {
          if (isAdmin) {
-            navigate("/admin");
+            navigate("/");
          } else {
             navigate("/");
          }
@@ -74,7 +74,7 @@ export default function LoginPage() {
          email: data.get("email"),
          contrasena: data.get("contrasena"),
       };
-      console.log(credentials);
+      console.log(isLoggedIn);
 
       // validar en el frontend
       login(credentials);

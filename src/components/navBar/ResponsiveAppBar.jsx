@@ -214,7 +214,7 @@ function ResponsiveAppBar() {
 
                {isAdmin && (
                   <Box sx={{ flexGrow: 0, display: { xs: "flex" }, mr: 4 }}>
-                     <NavLink style={{ textDecoration: "none" }} to="/admin">
+                     <NavLink style={{ textDecoration: "none" }}>
                         <Button
                            variant="contained"
                            startIcon={<BuildTwoToneIcon />}
