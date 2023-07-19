@@ -12,12 +12,15 @@ import "./ModifyPage.scss";
 import userService from "../_services/userService";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-export default function ModifyPage({User}) {
+export default function ModifyPage({value}) {
 
    const [users, setUser] = useState({});
    const [isLoading, setIsLoading] = useState(true);
    const token = useSelector((state) => state.auth.token);
+   const { state } = useLocation();
+   const { data } = state;
 
    useEffect(() => {
       getProfile();
@@ -29,7 +32,7 @@ export default function ModifyPage({User}) {
         //  const data = await userService.getProfile(token);
         //  setUser(data);
         //  console.log(data);
-        console.log(User);
+        console.log(data);
       } catch (error) {
          console.log(error);
       } finally {

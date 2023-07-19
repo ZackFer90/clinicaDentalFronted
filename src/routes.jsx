@@ -7,6 +7,8 @@ import LoginPage from "./pages/LoginPage";
 import AdminPage from "./pages/AdminPage";
 import ModifyPage from "./pages/ModifyPage";
 import RegisterPage from "./pages/RegisterPage";
+import GestionPages from "./pages/GestionPages";
+import RegisterDoctorPage from "./pages/RegisterDoctorPage";
 
 export default function AppRouter() {
    return (
@@ -17,6 +19,8 @@ export default function AppRouter() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/modify" element={<ModifyPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/gestion" element={<GestionPages />} />
+            <Route path="/registerDoctor" element={<RegisterDoctorPage />} />
         </Routes>
       </div>
    );

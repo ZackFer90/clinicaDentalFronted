@@ -53,7 +53,7 @@ export default function LoginPage() {
    useEffect(() => {
       if (isLoggedIn) {
          if (isAdmin) {
-            navigate("/");
+            navigate("/gestion");
          } else {
             navigate("/");
          }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 // @MUI
 import { Box, Container, Pagination, Typography } from "@mui/material";
@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 
 // ----------------------------------------------------------------------
 import adminService from "../_services/adminService";
+import ModifyPage from "./ModifyPage";
 
 export default function AdminPage() {
    // hooks
@@ -31,7 +32,6 @@ export default function AdminPage() {
    const [countDoctor, setCountDoctor] = useState(1);
    const navigate = useNavigate();
 
-
    useEffect(() => {
       getUsers();
    }, [usersPage, doctorsPage]);
@@ -44,12 +44,27 @@ export default function AdminPage() {
       setDoctorsPage(value);
    }
 
-   const clickDelete = (value) =>{
+   const clickDeletePatient = async (value) =>{
          console.log(`Borrar ${value}`);
+         const userId = {
+            id: value
+         }
+         await adminService.deletePatient(token, userId);
+         const dataUser = await adminService.getAllPatient(token, usersPage);
+         setCountUser(dataUser.info.totalPage);
+         setUsers(dataUser.results);
    }
 
-   const changePage = (event, value) =>{
-      navigate("/modify");
+   const clickDeleteDoctor = (value) =>{
+         console.log(`Borrar ${value}`);
+         adminService.deleteDoctor(token, value);
+   }
+
+   const changePage = (value) =>{
+      // <ModifyPage value={value} />
+      console.log("entra");
+      <Navigate to={"/modify"} state={{ value }} />
+      navigate(`/modify`);
    }
 
    const getUsers = async () => {
@@ -58,7 +73,7 @@ export default function AdminPage() {
          const dataUser = await adminService.getAllPatient(token, usersPage);
          const dataDoc = await adminService.getAllDoctors(token, doctorsPage);
          setCountDoctor(dataDoc.info.totalPage);
-         setCountUser(dataUser.info.totalPage)
+         setCountUser(dataUser.info.totalPage);
          setUsers(dataUser.results);
          setDoctors(dataDoc.results);
          console.log(dataUser);
@@ -76,7 +91,7 @@ export default function AdminPage() {
          <Typography variant="h6" gutterBottom textAlign={'center'} sx={{ marginTop: '30px' }}>
             Datos de pacientes
          </Typography>
-         <TableContainer component={Paper} sx={{ mx: 'auto', width: 850}}>
+         <TableContainer component={Paper} sx={{ mx: 'auto', width: 870}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                <TableRow>
@@ -95,17 +110,21 @@ export default function AdminPage() {
                   key={user.usuarios.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                  <TableCell component="th" scope="row">
-                     {user.usuarios.id}
-                  </TableCell>
-                  <TableCell align="right">{user.usuarios.nombre}</TableCell>
-                  <TableCell align="right">{user.usuarios.apellidos}</TableCell>
-                  <TableCell align="right">{format( new Date (user.usuarios.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
-                  <TableCell align="right">{user.usuarios.email}</TableCell>
-                  <TableCell align="right">{user.usuarios.telefono}</TableCell>  
-                  <TableCell align="right">{user.usuarios.direccion}</TableCell>
-                  <TableCell align="right"><DeleteIcon /></TableCell>
-                  <TableCell align="right"><CreateIcon /></TableCell>
+                     <TableCell component="th" scope="row">
+                        {user.usuarios.id}
+                     </TableCell>
+                     <TableCell align="right">{user.usuarios.nombre}</TableCell>
+                     <TableCell align="right">{user.usuarios.apellidos}</TableCell>
+                     <TableCell align="right">{format( new Date (user.usuarios.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
+                     <TableCell align="right">{user.usuarios.email}</TableCell>
+                     <TableCell align="right">{user.usuarios.telefono}</TableCell>  
+                     <TableCell align="right">{user.usuarios.direccion}</TableCell>
+                     <TableCell align="right">
+                        <Button startIcon={<DeleteIcon />} sx={{color: "red"}} onClick={()=> clickDeletePatient(user.usuarios.id)}/>
+                     </TableCell>
+                     <TableCell align="right">
+                        <CreateIcon onClick={()=> changePage(user.usuarios)}/>
+                     </TableCell>
                   </TableRow>
                ))}
             </TableBody>
@@ -118,7 +137,7 @@ export default function AdminPage() {
          <Typography variant="h6" gutterBottom textAlign={'center'} sx={{ marginTop: '30px' }}>
             Datos de doctores
          </Typography>
-         <TableContainer component={Paper} sx={{ mx: 'auto', width: 850}}>
+         <TableContainer component={Paper} sx={{ mx: 'auto', width: 870}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                <TableRow>
@@ -137,28 +156,23 @@ export default function AdminPage() {
                   key={doc.usuarios.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                  <TableCell component="th" scope="row">
-                     {doc.usuarios.id}
-                  </TableCell>
-                  <TableCell align="right">{doc.usuarios.nombre}</TableCell>
-                  <TableCell align="right">{doc.usuarios.apellidos}</TableCell>
-                  <TableCell align="right">{format( new Date (doc.usuarios.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
-                  <TableCell align="right">{doc.usuarios.email}</TableCell>
-                  <TableCell align="right">{doc.usuarios.telefono}</TableCell>
-                  <TableCell align="right">{doc.usuarios.direccion}</TableCell>
-                  <TableCell align="right"><Button startIcon={<DeleteIcon />} sx={{color: "red"}} onClick={()=> clickDelete(doc.usuarios.id)}/></TableCell>
-                  <TableCell align="right"><CreateIcon User={doc} onClick={changePage}/></TableCell>
-                  </TableRow>
-                  // <Button
-                  // variant="contained"
-                  // startIcon={<BuildTwoToneIcon />}
-                  // color="warning"
-                  // sx={{
-                  //    my: 2,
-                  //    color: "white",
-                  //    //backgroundColor: "#FFC107",
-                  // }}
-               
+                     <TableCell component="th" scope="row">
+                        {doc.usuarios.id}
+                     </TableCell>
+                     <TableCell align="right">{doc.usuarios.nombre}</TableCell>
+                     <TableCell align="right">{doc.usuarios.apellidos}</TableCell>
+                     <TableCell align="right">{format( new Date (doc.usuarios.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
+                     <TableCell align="right">{doc.usuarios.email}</TableCell>
+                     <TableCell align="right">{doc.usuarios.telefono}</TableCell>
+                     <TableCell align="right">{doc.usuarios.direccion}</TableCell>
+                     <TableCell align="right">
+                        <Button startIcon={<DeleteIcon />} sx={{color: "red"}} onClick={()=> clickDeleteDoctor(doc.usuarios.id)}/>
+                     </TableCell>
+                     <TableCell align="right">
+                        <CreateIcon onClick={()=> changePage(doc.usuarios)}/>
+                        {/* <Navigate startIcon={<CreateIcon />} to={"/modify"} state={{ doc }} /> */}
+                     </TableCell>
+                  </TableRow>               
                ))}
             </TableBody>
             </Table>

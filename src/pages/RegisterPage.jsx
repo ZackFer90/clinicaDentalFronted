@@ -13,7 +13,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
+import format from "date-fns/format";
+import dayjs from 'dayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+
 function Copyright(props) {
+
    return (
       <Typography
          variant="body2"
@@ -35,21 +43,24 @@ const defaultTheme = createTheme();
 
 export default function RegisterPage() {
 
-
-    const [showPassword, setShowPassword] = React.useState(false);
+   const [value, setValue] = React.useState(dayjs(new Date()));
+   const [showPassword, setShowPassword] = React.useState(false);
 
    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-   const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-   };
+   // const handleMouseDownPassword = (event) => {
+   //    event.preventDefault();
+   // };
 
    const handleSubmit = (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
       console.log({
+         name: data.get("firstName"),
+         last: data.get("lastName"),
          email: data.get("email"),
          password: data.get("password"),
+         fecha: format( new Date (value), "dd/MM/yyyy"),
       });
    };
 
@@ -85,7 +96,7 @@ export default function RegisterPage() {
                            required
                            fullWidth
                            id="firstName"
-                           label="First Name"
+                           label="Nombre"
                            autoFocus
                         />
                      </Grid>
@@ -94,7 +105,7 @@ export default function RegisterPage() {
                            required
                            fullWidth
                            id="lastName"
-                           label="Last Name"
+                           label="Apellidos"
                            name="lastName"
                            autoComplete="family-name"
                         />
@@ -104,7 +115,7 @@ export default function RegisterPage() {
                            required
                            fullWidth
                            id="email"
-                           label="Email Address"
+                           label="Email"
                            name="email"
                            autoComplete="email"
                         />
@@ -114,7 +125,7 @@ export default function RegisterPage() {
                            required
                            fullWidth
                            name="password"
-                           label="Password"
+                           label="Contraseña"
                            type={showPassword ? "text" : "password"}
                            id="password"
                            autoComplete="new-password"
@@ -124,7 +135,7 @@ export default function RegisterPage() {
                                     <IconButton
                                        aria-label="toggle password visibility"
                                        onClick={handleClickShowPassword}
-                                       onMouseDown={handleMouseDownPassword}
+                                       // onMouseDown={handleMouseDownPassword}
                                        edge="end"
                                     >
                                        {showPassword ? (
@@ -139,6 +150,16 @@ export default function RegisterPage() {
                         />
                      </Grid>
                   </Grid>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                     <DemoContainer components={['DateCalendar']}>
+                     {/* <DemoItem label="Fecha nacimiento">
+                        <DateCalendar defaultValue={dayjs('2022-04-17')} />
+                     </DemoItem> */}
+                     <DemoItem label="Fecha de nacimiento">
+                        <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
+                     </DemoItem>
+                     </DemoContainer>
+                  </LocalizationProvider>
                   <Button
                      type="submit"
                      fullWidth
@@ -147,13 +168,6 @@ export default function RegisterPage() {
                   >
                      Register
                   </Button>
-                  <Grid container justifyContent="center">
-                     <Grid item>
-                        <Link href="#" variant="body2">
-                           Already have an account? Sign in
-                        </Link>
-                     </Grid>
-                  </Grid>
                </Box>
             </Box>
             <Copyright sx={{ mt: 5 }} />

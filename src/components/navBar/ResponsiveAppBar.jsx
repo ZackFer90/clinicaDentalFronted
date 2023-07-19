@@ -33,8 +33,8 @@ const handleLogout = () => {
 };
 
 const pages = [
-   { title: "Home", path: "/" },
-//    { title: "Courses", path: "/courses" },
+   { title: "Inicio", path: "/" },
+   { title: "Gestiones", path: "/gestion" },
 //    { title: "About", path: "/about" },
 ];
 
