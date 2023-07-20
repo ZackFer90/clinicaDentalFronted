@@ -6,13 +6,14 @@ import storage from "redux-persist/lib/storage";
 
 // reducers
 import authReducer from "../features/authentication/authSlice";
+import userReducer from "../features/user/userSlice";
 
 // ----------------------------------------------------------------------
 
 const rootPersistConfig = {
    key: "root",
    storage: storage,
-   blacklist: ["auth"],
+   blacklist: ["auth", "user"],
 };
 
 const authPersistConfig = {
@@ -20,10 +21,16 @@ const authPersistConfig = {
    storage: sessionStorage,
 };
 
+const userPersistConfig = {
+   key: "user",
+   storage: sessionStorage,
+};
+
 // ----------------------------------------------------------------------
 
 const rootReducer = combineReducers({
    auth: persistReducer(authPersistConfig, authReducer),
+   user: persistReducer(userPersistConfig, userReducer),
    //other: otherReducer,   // sin persistencia
 });
 

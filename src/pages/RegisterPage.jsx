@@ -20,6 +20,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
+import authService from '../_services/authService';
+
 function Copyright(props) {
 
    return (
@@ -40,7 +42,6 @@ function Copyright(props) {
 }
 
 const defaultTheme = createTheme();
-
 export default function RegisterPage() {
 
    const [value, setValue] = React.useState(dayjs(new Date()));
@@ -53,20 +54,36 @@ export default function RegisterPage() {
    // };
 
    const handleSubmit = (event) => {
-      event.preventDefault();
+      // event.preventDefault();
       const data = new FormData(event.currentTarget);
+      const fecha = format( new Date (value), "yyyy/MM/dd");
+      const actualDate = format( new Date (), "yyyy/MM/dd");
       console.log({
          name: data.get("firstName"),
          last: data.get("lastName"),
          email: data.get("email"),
          password: data.get("password"),
-         fecha: format( new Date (value), "dd/MM/yyyy"),
+         fecha: fecha,
+         fechaActual : actualDate,
       });
+
+      const registerUser = {
+         nombre: data.get("firstName"),
+         apellidos: data.get("lastName"),
+         email: data.get("email"),
+         contrasena: data.get("password"),
+         fecha_nacimiento: fecha,
+      }
+
+      if(data.get("firstName") != "" && data.get("lastName") != "" && data.get("email") != "" && data.get("password") && fecha > actualDate){
+         authService.register(registerUser);
+      }
+
    };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-         <Container component="main" maxWidth="xs">
+         <Container component="main" maxWidth="sm">
             <CssBaseline />
             <Box
                sx={{
@@ -150,16 +167,18 @@ export default function RegisterPage() {
                         />
                      </Grid>
                   </Grid>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                     <DemoContainer components={['DateCalendar']}>
-                     {/* <DemoItem label="Fecha nacimiento">
-                        <DateCalendar defaultValue={dayjs('2022-04-17')} />
-                     </DemoItem> */}
-                     <DemoItem label="Fecha de nacimiento">
-                        <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
-                     </DemoItem>
-                     </DemoContainer>
-                  </LocalizationProvider>
+                  <Box display="flex" justifyContent="center" alignItems="center">
+                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DateCalendar']}>
+                        {/* <DemoItem label="Fecha nacimiento">
+                           <DateCalendar defaultValue={dayjs('2022-04-17')} />
+                        </DemoItem> */}
+                        <DemoItem label="Fecha de nacimiento">
+                           <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
+                        </DemoItem>
+                        </DemoContainer>
+                     </LocalizationProvider>
+                  </Box>
                   <Button
                      type="submit"
                      fullWidth

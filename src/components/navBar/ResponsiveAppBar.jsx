@@ -20,6 +20,7 @@ import { Divider } from "@mui/material";
 import BuildTwoToneIcon from "@mui/icons-material/BuildTwoTone";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
+import Chip from '@mui/material/Chip';
 
 //
 import "./ResponsiveAppBar.scss";
@@ -128,6 +129,7 @@ function ResponsiveAppBar() {
                      }}
                   >
                      {pages.map((page) => (
+                        
                         <NavLink
                            style={{ textDecoration: "none" }}
                            to={page.path}
@@ -163,18 +165,20 @@ function ResponsiveAppBar() {
                ></Typography>
                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                   {pages.map((page) => (
-                     <NavLink
-                        style={{ textDecoration: "none" }}
-                        to={page.path}
-                        key={page.title}
-                     >
-                        <Button
-                           onClick={handleCloseNavMenu}
-                           sx={{ my: 2, color: "white", display: "block" }}
+                     // {page.title != "Gestiones" && (
+                        <NavLink
+                           style={{ textDecoration: "none" }}
+                           to={page.path}
+                           key={page.title}
                         >
-                           {page.title}
-                        </Button>
-                     </NavLink>
+                           <Button
+                              onClick={handleCloseNavMenu}
+                              sx={{ my: 2, color: "white", display: "block" }}
+                           >
+                              {page.title}
+                           </Button>
+                        </NavLink>
+                     // )}
                   ))}
                </Box>
 
@@ -215,18 +219,16 @@ function ResponsiveAppBar() {
                {isAdmin && (
                   <Box sx={{ flexGrow: 0, display: { xs: "flex" }, mr: 4 }}>
                      <NavLink style={{ textDecoration: "none" }}>
-                        <Button
+                        <Chip
                            variant="contained"
-                           startIcon={<BuildTwoToneIcon />}
+                           icon={<BuildTwoToneIcon />}
                            color="warning"
                            sx={{
-                              my: 2,
+                              boxShadow: 3,
                               color: "white",
-                              //backgroundColor: "#FFC107",
                            }}
-                        >
-                           Admin panel
-                        </Button>
+                           label="Admin panel"
+                        />
                      </NavLink>
                   </Box>
                )}

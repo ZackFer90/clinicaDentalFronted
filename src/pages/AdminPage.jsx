@@ -18,7 +18,7 @@ import Button from "@mui/material/Button";
 
 // ----------------------------------------------------------------------
 import adminService from "../_services/adminService";
-import ModifyPage from "./ModifyPage";
+import { updateUser } from "../features/user/updateUserState";
 
 export default function AdminPage() {
    // hooks
@@ -45,7 +45,6 @@ export default function AdminPage() {
    }
 
    const clickDeletePatient = async (value) =>{
-         console.log(`Borrar ${value}`);
          const userId = {
             id: value
          }
@@ -61,9 +60,8 @@ export default function AdminPage() {
    }
 
    const changePage = (value) =>{
-      // <ModifyPage value={value} />
-      console.log("entra");
-      <Navigate to={"/modify"} state={{ value }} />
+      // console.log(value);
+      updateUser(value);
       navigate(`/modify`);
    }
 
@@ -91,7 +89,7 @@ export default function AdminPage() {
          <Typography variant="h6" gutterBottom textAlign={'center'} sx={{ marginTop: '30px' }}>
             Datos de pacientes
          </Typography>
-         <TableContainer component={Paper} sx={{ mx: 'auto', width: 870}}>
+         <TableContainer component={Paper} sm={{ width: 870}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                <TableRow>
@@ -137,7 +135,7 @@ export default function AdminPage() {
          <Typography variant="h6" gutterBottom textAlign={'center'} sx={{ marginTop: '30px' }}>
             Datos de doctores
          </Typography>
-         <TableContainer component={Paper} sx={{ mx: 'auto', width: 870}}>
+         <TableContainer component={Paper} sm={{ width: 870}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
                <TableRow>

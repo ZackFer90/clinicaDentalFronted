@@ -1,11 +1,11 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
-import { positions } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 import format from "date-fns/format";
 import "./ModifyPage.scss";
@@ -18,137 +18,118 @@ export default function ModifyPage({value}) {
 
    const [users, setUser] = useState({});
    const [isLoading, setIsLoading] = useState(true);
-   const token = useSelector((state) => state.auth.token);
-   const { state } = useLocation();
-   const { data } = state;
+   const user = useSelector((state) => state.user.user);
 
    useEffect(() => {
       getProfile();
    }, []);
 
    const getProfile = async () => {
-      setIsLoading(true);
-      try {
-        //  const data = await userService.getProfile(token);
-        //  setUser(data);
-        //  console.log(data);
-        console.log(data);
-      } catch (error) {
-         console.log(error);
-      } finally {
-         setIsLoading(false);
-      }
+      // console.log(user);
+      // user.id
    };
+
+   const handleChange = (event) => {
+
+      const data = new FormData(event.currentTarget);
+
+      const registerUser = {
+         nombre: data.get("nombre"),
+         apellidos: data.get("lastName"),
+         email: data.get("email"),
+         birthday: data.get("birthday"),
+         street: data.get("street"),
+         number: data.get("number"),
+      }
+      console.log("entra");
+      console.log(registerUser);
+   }
 
    return (
       <>
-         {!isLoading ? (
-            <Container sx={{ mx: 'auto', width: 800, mt: 1, mb: 1 }}>
-               <Typography variant="h6" gutterBottom>
-                  Profile User
-               </Typography>
-               <Grid container spacing={3}>
+         <Container  sm={{ width: 800, mt: 50, mb: 1 }} sx={{mt: 5}}>
+            <Typography variant="h6" gutterBottom>
+               Profile User
+            </Typography>
+            <Box component="form" sx={{ mt: 3 }} onSubmit={handleChange}>
+               <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         id="name"
-                        label="name"
-                        // defaultValue={users.name}
+                        label="nombre"
+                        name="name"
+                        defaultValue={user.nombre}
                         fullWidth
                         InputProps={{
-                           readOnly: true,
+                           readOnly: false,
                         }}
                      />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         id="lastName"
-                        label="last name"
-                        // defaultValue={users.last_name}
+                        label="apellidos"
+                        name="lastName"
+                        defaultValue={user.apellidos}
                         fullWidth
                         InputProps={{
-                           readOnly: true,
+                           readOnly: false,
                         }}
                      />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         id="birthday"
-                        label="birthday"
-                        // defaultValue={users.birthday}
-                        // defaultValue={format( new Date (users.birthday), "dd/MM/yyyy")}
+                        label="fecha nacimiento"
+                        name="birthday"
+                        defaultValue={format( new Date (user.fecha_nacimiento), "yyyy/MM/dd")}
                         fullWidth
                         InputProps={{
-                           readOnly: true,
+                           readOnly: false,
                         }}
                      />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         id="email"
-                        label="email"
-                        // defaultValue={users.email}
+                        label="correo"
+                        name="email"
+                        defaultValue={user.email}
                         fullWidth
                         InputProps={{
-                           readOnly: true,
+                           readOnly: false,
                         }}
                      />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         id="street"
-                        label="street"
-                        // defaultValue={users.address.street}
+                        label="direccion"
+                        name="street"
+                        defaultValue={user.direccion}
                         fullWidth
                         InputProps={{
-                           readOnly: true,
+                           readOnly: false,
                         }}
                      />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         id="number"
-                        label="number street"
-                        // defaultValue={users.address.number}
+                        label="telefono"
+                        name="number"
+                        defaultValue={user.telefono}
                         fullWidth
                         InputProps={{
-                           readOnly: true,
+                           readOnly: false,
                         }}
                      />
-                  </Grid>
-                  <Grid item xs={12}>
-                     <TextField
-                        id="nationality"
-                        label="nationality"
-                        // defaultValue={users.nationality}
-                        fullWidth
-                        InputProps={{
-                           readOnly: true,
-                        }}
-                     />
-                  </Grid>
-                  {users?.active == 'yes' && (
-                     <Grid container spacing={3} sx={{ mx: 'auto', mt: 1}}>
-                     {users.courses.map ((user) => (
-                        <Grid item xs={12} sm={6}>
-                           <TextField
-                              id={user.name}
-                              label={user.category}
-                              defaultValue={user.name}
-                              fullWidth
-                              InputProps={{
-                                 readOnly: true,
-                              }}
-                           />
-                        </Grid>
-                     ))}
-                     </Grid>
-                  )}
-                  <Grid item xs={12}>
-                     <Button sx={{ ml: 80 }} variant="contained">Contained</Button>
                   </Grid>
                </Grid>
-            </Container>) : ( (<p></p>)
-            )}
+               <Button sx={{ mt: 3, mb: 2 }} type="submit" variant="contained">Guardar</Button>
+               <Button sx={{ mt: 3, mb: 2, ml: 3 }} href="/admin" variant="contained">Cancelar</Button>
+            </Box>
+         </Container>
       </>
    );
 }
