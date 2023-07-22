@@ -14,12 +14,12 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import SchoolTwoToneIcon from "@mui/icons-material/SchoolTwoTone";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Divider } from "@mui/material";
 import BuildTwoToneIcon from "@mui/icons-material/BuildTwoTone";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
+import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import Chip from '@mui/material/Chip';
 
 //
@@ -35,13 +35,13 @@ const handleLogout = () => {
 
 const pages = [
    { title: "Inicio", path: "/" },
-   { title: "Gestiones", path: "/gestion" },
 //    { title: "About", path: "/about" },
 ];
 
 const settings = [
 //    { title: "Profile", path: "/profile", handle: null },
 //    { title: "Profile2", path: "/profile2", handle: null },
+   { title: "Profile", path: "/profile", handle: null },
    { title: "Logout", path: "/", handle: handleLogout },
 ];
 
@@ -54,6 +54,8 @@ function ResponsiveAppBar() {
    const userName = useSelector((state) => state.auth.userInfo.name);
    const userRole = useSelector((state) => state.auth.userInfo.role);
    const isAdmin = userRole == "admin";
+   const isDoctor = userRole == "doctor";
+   const isUser = userRole == "user";
 
    const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -78,7 +80,7 @@ function ResponsiveAppBar() {
       >
          <Container>
             <Toolbar disableGutters>
-               <SchoolTwoToneIcon
+               <MedicalServicesOutlinedIcon
                   sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
                />
                <Typography
@@ -96,7 +98,7 @@ function ResponsiveAppBar() {
                      textDecoration: "none",
                   }}
                >
-                  GeeksHubs
+                  Clinica Dental
                </Typography>
 
                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -144,7 +146,7 @@ function ResponsiveAppBar() {
                      ))}
                   </Menu>
                </Box>
-               <SchoolTwoToneIcon
+               <MedicalServicesOutlinedIcon
                   sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
                />
                <Typography
@@ -165,21 +167,19 @@ function ResponsiveAppBar() {
                ></Typography>
                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                   {pages.map((page) => (
-                     // {page.title != "Gestiones" && (
-                        <NavLink
-                           style={{ textDecoration: "none" }}
-                           to={page.path}
-                           key={page.title}
-                        >
-                           <Button
-                              onClick={handleCloseNavMenu}
-                              sx={{ my: 2, color: "white", display: "block" }}
-                           >
-                              {page.title}
-                           </Button>
-                        </NavLink>
-                     // )}
+                     <NavLink style={{ textDecoration: "none" }} to={page.path} key={page.title}>
+                        <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
+                           {page.title}
+                        </Button>
+                     </NavLink>
                   ))}
+                  {isLoggedIn && (
+                     <NavLink style={{ textDecoration: "none" }} to="/gestion">
+                        <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
+                           Gestiones
+                        </Button>
+                     </NavLink>
+                  )}
                </Box>
 
                {!isLoggedIn && (

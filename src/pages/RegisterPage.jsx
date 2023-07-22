@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +12,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {AlertTitle} from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 import format from "date-fns/format";
 import dayjs from 'dayjs';
@@ -20,11 +22,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
+import { Navigate, useNavigate } from "react-router-dom";
 import authService from '../_services/authService';
+
 
 function Copyright(props) {
 
    return (
+
+
       <Typography
          variant="body2"
          color="text.secondary"
@@ -42,30 +48,26 @@ function Copyright(props) {
 }
 
 const defaultTheme = createTheme();
+
 export default function RegisterPage() {
 
    const [value, setValue] = React.useState(dayjs(new Date()));
    const [showPassword, setShowPassword] = React.useState(false);
+   const [error, setError] = useState(null);
 
    const handleClickShowPassword = () => setShowPassword((show) => !show);
+   const navigate = useNavigate();
+   // let error = "";
 
    // const handleMouseDownPassword = (event) => {
    //    event.preventDefault();
    // };
 
    const handleSubmit = (event) => {
-      // event.preventDefault();
+      event.preventDefault();
       const data = new FormData(event.currentTarget);
       const fecha = format( new Date (value), "yyyy/MM/dd");
       const actualDate = format( new Date (), "yyyy/MM/dd");
-      console.log({
-         name: data.get("firstName"),
-         last: data.get("lastName"),
-         email: data.get("email"),
-         password: data.get("password"),
-         fecha: fecha,
-         fechaActual : actualDate,
-      });
 
       const registerUser = {
          nombre: data.get("firstName"),
@@ -75,14 +77,25 @@ export default function RegisterPage() {
          fecha_nacimiento: fecha,
       }
 
-      if(data.get("firstName") != "" && data.get("lastName") != "" && data.get("email") != "" && data.get("password") && fecha > actualDate){
-         authService.register(registerUser);
-      }
 
+
+      if(data.get("firstName") != "" && data.get("lastName") != "" && data.get("email") != "" && data.get("password") && fecha < actualDate){
+         setError(null);
+         authService.register(registerUser);
+         navigate(`/`);
+      }else{
+         setError("Hay campos vacios");
+      }
    };
 
   return (
     <ThemeProvider theme={defaultTheme}>
+         {error && (
+            <Alert severity="error">
+               <AlertTitle>Error</AlertTitle>
+               {error}
+            </Alert>
+         )}
          <Container component="main" maxWidth="sm">
             <CssBaseline />
             <Box
@@ -124,7 +137,6 @@ export default function RegisterPage() {
                            id="lastName"
                            label="Apellidos"
                            name="lastName"
-                           autoComplete="family-name"
                         />
                      </Grid>
                      <Grid item xs={12}>
@@ -134,7 +146,6 @@ export default function RegisterPage() {
                            id="email"
                            label="Email"
                            name="email"
-                           autoComplete="email"
                         />
                      </Grid>
                      <Grid item xs={12}>
@@ -145,7 +156,6 @@ export default function RegisterPage() {
                            label="Contraseña"
                            type={showPassword ? "text" : "password"}
                            id="password"
-                           autoComplete="new-password"
                            InputProps={{
                               endAdornment: (
                                  <InputAdornment position="end">

@@ -30,7 +30,7 @@ export default function ModifyPage({value}) {
    };
 
    const handleChange = (event) => {
-
+      event.preventDefault();
       const data = new FormData(event.currentTarget);
 
       const registerUser = {
@@ -43,6 +43,12 @@ export default function ModifyPage({value}) {
       }
       console.log("entra");
       console.log(registerUser);
+      console.log(user.id_rol);
+
+      if(user.id_rol){
+
+      }
+
    }
 
    return (

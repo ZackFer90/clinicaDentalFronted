@@ -64,10 +64,10 @@ userService.createAppointment = async (token, user) => {
    return response.data;
 };
 
-userService.getAppointment = async (token) => {
+userService.getAppointment = async (token, page=1) => {
    const options = {
       method: "GET",
-      url: `${global.BASE_API_URL}/user/get-Appointmen`,
+      url: `${global.BASE_API_URL}/user/get-Appointment`,
       headers: {
          accept: "application/json",
          Authorization: `Bearer ${token}`,

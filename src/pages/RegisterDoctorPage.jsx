@@ -1,7 +1,202 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useSelector } from "react-redux";
+
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import VaccinesIcon from '@mui/icons-material/Vaccines';
+import {AlertTitle} from "@mui/material";
+import Alert from "@mui/material/Alert";
+
+import format from "date-fns/format";
+import dayjs from 'dayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+
+import { Navigate, useNavigate } from "react-router-dom";
+import adminService from '../_services/adminService';
+
+function Copyright(props) {
+
+   return (
+      <Typography
+         variant="body2"
+         color="text.secondary"
+         align="center"
+         {...props}
+      >
+         {"Copyright © "}
+         <Link color="inherit" href="https://mui.com/">
+            Your Website
+         </Link>{" "}
+         {new Date().getFullYear()}
+         {"."}
+      </Typography>
+   );
+}
+
+const defaultTheme = createTheme();
 
 export default function RegisterDoctorPage() {
+
+   const [value, setValue] = React.useState(dayjs(new Date()));
+   const [showPassword, setShowPassword] = React.useState(false);
+   const [error, setError] = useState(null);
+
+   const handleClickShowPassword = () => setShowPassword((show) => !show);
+   const navigate = useNavigate();
+   const token = useSelector((state) => state.auth.token);
+
+   const handleSubmit = (event) => {
+      const data = new FormData(event.currentTarget);
+      const fecha = format( new Date (value), "yyyy/MM/dd");
+      const actualDate = format( new Date (), "yyyy/MM/dd");
+
+      const registerUser = {
+         nombre: data.get("firstName"),
+         apellidos: data.get("lastName"),
+         email: data.get("email"),
+         contrasena: data.get("password"),
+         fecha_nacimiento: fecha,
+      }
+
+
+
+      if(data.get("firstName") != "" && data.get("lastName") != "" && data.get("email") != "" && data.get("password") && fecha < actualDate){
+        setError(null);
+        adminService.registerDoctor(token, registerUser);
+        navigate(`/gestion`);
+      }else{
+        setError("Hay campos vacios");
+      }
+
+   };
+
   return (
-    <div>RegisterDoctorPage</div>
+    <ThemeProvider theme={defaultTheme}>
+          {error && (
+            <Alert severity="error">
+               <AlertTitle>Error</AlertTitle>
+               {error}
+            </Alert>
+          )}
+          <Container component="main" maxWidth="sm">
+            <CssBaseline />
+            <Box
+               sx={{
+                  marginTop: 8,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+               }}
+            >
+               <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                  <VaccinesIcon />
+               </Avatar>
+               <Typography component="h1" variant="h5">
+                  Register
+               </Typography>
+               <Box
+                  component="form"
+                  noValidate
+                  onSubmit={handleSubmit}
+                  sx={{ mt: 3 }}
+               >
+                  <Grid container spacing={2}>
+                     <Grid item xs={12} sm={6}>
+                        <TextField
+                           autoComplete="given-name"
+                           name="firstName"
+                           required
+                           fullWidth
+                           id="firstName"
+                           label="Nombre"
+                           autoFocus
+                        />
+                     </Grid>
+                     <Grid item xs={12} sm={6}>
+                        <TextField
+                           required
+                           fullWidth
+                           id="lastName"
+                           label="Apellidos"
+                           name="lastName"
+                        />
+                     </Grid>
+                     <Grid item xs={12}>
+                        <TextField
+                           required
+                           fullWidth
+                           id="email"
+                           label="Email"
+                           name="email"
+                        />
+                     </Grid>
+                     <Grid item xs={12}>
+                        <TextField
+                           required
+                           fullWidth
+                           name="password"
+                           label="Contraseña"
+                           type={showPassword ? "text" : "password"}
+                           id="password"
+                           InputProps={{
+                              endAdornment: (
+                                 <InputAdornment position="end">
+                                    <IconButton
+                                       aria-label="toggle password visibility"
+                                       onClick={handleClickShowPassword}
+                                       // onMouseDown={handleMouseDownPassword}
+                                       edge="end"
+                                    >
+                                       {showPassword ? (
+                                          <VisibilityOff />
+                                       ) : (
+                                          <Visibility />
+                                       )}
+                                    </IconButton>
+                                 </InputAdornment>
+                              ),
+                           }}
+                        />
+                     </Grid>
+                  </Grid>
+                  <Box display="flex" justifyContent="center" alignItems="center">
+                     <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DemoContainer components={['DateCalendar']}>
+                        {/* <DemoItem label="Fecha nacimiento">
+                           <DateCalendar defaultValue={dayjs('2022-04-17')} />
+                        </DemoItem> */}
+                        <DemoItem label="Fecha de nacimiento">
+                           <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
+                        </DemoItem>
+                        </DemoContainer>
+                     </LocalizationProvider>
+                  </Box>
+                  <Button
+                     type="submit"
+                     fullWidth
+                     variant="contained"
+                     sx={{ mt: 3, mb: 2 }}
+                  >
+                     Register
+                  </Button>
+               </Box>
+            </Box>
+            <Copyright sx={{ mt: 5 }} />
+         </Container>
+      </ThemeProvider>
   )
 }

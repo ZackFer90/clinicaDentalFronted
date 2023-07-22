@@ -11,8 +11,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AlertTitle, IconButton, InputAdornment } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Alert from "@mui/material/Alert";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import authService from "../_services/authService";
 import { updateAuthStateLogin } from "../features/authentication/updateAuthState";
@@ -74,7 +74,6 @@ export default function LoginPage() {
          email: data.get("email"),
          contrasena: data.get("contrasena"),
       };
-      console.log(isLoggedIn);
 
       // validar en el frontend
       login(credentials);

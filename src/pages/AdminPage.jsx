@@ -75,7 +75,7 @@ export default function AdminPage() {
          setUsers(dataUser.results);
          setDoctors(dataDoc.results);
          console.log(dataUser);
-         // console.log(dataDoc);
+         console.log(dataDoc);
       } catch (error) {
          console.log(error);
       } finally {
@@ -105,23 +105,22 @@ export default function AdminPage() {
             <TableBody>
                {users.map((user) => (
                   <TableRow
-                  key={user.usuarios.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  key={user.usuario.id}
                   >
                      <TableCell component="th" scope="row">
-                        {user.usuarios.id}
+                        {user.usuario.id}
                      </TableCell>
-                     <TableCell align="right">{user.usuarios.nombre}</TableCell>
-                     <TableCell align="right">{user.usuarios.apellidos}</TableCell>
-                     <TableCell align="right">{format( new Date (user.usuarios.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
-                     <TableCell align="right">{user.usuarios.email}</TableCell>
-                     <TableCell align="right">{user.usuarios.telefono}</TableCell>  
-                     <TableCell align="right">{user.usuarios.direccion}</TableCell>
+                     <TableCell align="right">{user.usuario.nombre}</TableCell>
+                     <TableCell align="right">{user.usuario.apellidos}</TableCell>
+                     <TableCell align="right">{format( new Date (user.usuario.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
+                     <TableCell align="right">{user.usuario.email}</TableCell>
+                     <TableCell align="right">{user.usuario.telefono}</TableCell>  
+                     <TableCell align="right">{user.usuario.direccion}</TableCell>
                      <TableCell align="right">
                         <Button startIcon={<DeleteIcon />} sx={{color: "red"}} onClick={()=> clickDeletePatient(user.usuarios.id)}/>
                      </TableCell>
                      <TableCell align="right">
-                        <CreateIcon onClick={()=> changePage(user.usuarios)}/>
+                        <CreateIcon onClick={()=> changePage(user.usuario)}/>
                      </TableCell>
                   </TableRow>
                ))}
@@ -151,24 +150,23 @@ export default function AdminPage() {
             <TableBody>
                {doctors.map((doc) => (
                   <TableRow
-                  key={doc.usuarios.id}
+                  key={doc.usuario.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                      <TableCell component="th" scope="row">
-                        {doc.usuarios.id}
+                        {doc.usuario.id}
                      </TableCell>
-                     <TableCell align="right">{doc.usuarios.nombre}</TableCell>
-                     <TableCell align="right">{doc.usuarios.apellidos}</TableCell>
-                     <TableCell align="right">{format( new Date (doc.usuarios.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
-                     <TableCell align="right">{doc.usuarios.email}</TableCell>
-                     <TableCell align="right">{doc.usuarios.telefono}</TableCell>
-                     <TableCell align="right">{doc.usuarios.direccion}</TableCell>
+                     <TableCell align="right">{doc.usuario.nombre}</TableCell>
+                     <TableCell align="right">{doc.usuario.apellidos}</TableCell>
+                     <TableCell align="right">{format( new Date (doc.usuario.fecha_nacimiento), "dd/MM/yyyy")}</TableCell>
+                     <TableCell align="right">{doc.usuario.email}</TableCell>
+                     <TableCell align="right">{doc.usuario.telefono}</TableCell>
+                     <TableCell align="right">{doc.usuario.direccion}</TableCell>
                      <TableCell align="right">
                         <Button startIcon={<DeleteIcon />} sx={{color: "red"}} onClick={()=> clickDeleteDoctor(doc.usuarios.id)}/>
                      </TableCell>
                      <TableCell align="right">
-                        <CreateIcon onClick={()=> changePage(doc.usuarios)}/>
-                        {/* <Navigate startIcon={<CreateIcon />} to={"/modify"} state={{ doc }} /> */}
+                        <CreateIcon onClick={()=> changePage(doc.usuario)}/>
                      </TableCell>
                   </TableRow>               
                ))}
