@@ -33,6 +33,19 @@ userService.getUser = async (token) => {
    return response.data;
 };
 
+userService.getDoctor = async () => {
+   const options = {
+      method: "GET",
+      url: `${global.BASE_API_URL}/user/getDoctor`,
+      headers: {
+         accept: "application/json",
+      },
+   };
+   //await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
+};
+
 userService.modifyUser = async (token, user) => {
    const options = {
       method: "PUT",

@@ -14,7 +14,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
-export default function ModifyPage({value}) {
+export default function ModifyProfilePage({value}) {
 
    const [users, setUser] = useState({});
    const [isLoading, setIsLoading] = useState(true);
@@ -30,28 +30,24 @@ export default function ModifyPage({value}) {
       // user.id
    };
 
-   const handleChange = (event) => {
+   const handleChange = async (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
 
       const registerUser = {
-         nombre: data.get("nombre"),
+         nombre: data.get("name"),
          apellidos: data.get("lastName"),
          email: data.get("email"),
-         birthday: data.get("birthday"),
-         street: data.get("street"),
-         number: data.get("number"),
+         fecha_nacimiento: data.get("birthday"),
+         direccion: data.get("street"),
+         telefono: data.get("number"),
       }
+
       console.log("entra");
       console.log(registerUser);
       console.log(user.id_rol);
 
-      if(user.id_rol == 2){
-         console.log("user");
-      }else if(user.id_rol == 3){
-         console.log("doctor");
-      }
-
+      await userService.modifyUser(token, registerUser);
    }
 
    return (
@@ -136,7 +132,7 @@ export default function ModifyPage({value}) {
                   </Grid>
                </Grid>
                <Button sx={{ mt: 3, mb: 2 }} type="submit" variant="contained">Guardar</Button>
-               <Button sx={{ mt: 3, mb: 2, ml: 3 }} href="/admin" variant="contained">Cancelar</Button>
+               <Button sx={{ mt: 3, mb: 2, ml: 3 }} href="/profile" variant="contained">Cancelar</Button>
             </Box>
          </Container>
       </>

@@ -23,14 +23,14 @@ export default function GestionPages() {
             )}
             {isDoctor && (
                 <Menu sx={{color: "primary"}}>
-                    <MenuItem component={<Link to="/admin" />} sx={{color: "primary"}}> Admin</MenuItem>
-                    <MenuItem component={<Link to="/registerDoctor" />}>Registrar</MenuItem>
+                    {/* <MenuItem component={<Link to="/admin" />} sx={{color: "primary"}}> Admin</MenuItem> */}
+                    {/* <MenuItem component={<Link to="/registerDoctor" />}>Registrar</MenuItem> */}
                 </Menu>
             )}
             {isUser && (
                 <Menu sx={{color: "primary"}}>
-                    <MenuItem component={<Link to="/admin" />} sx={{color: "primary"}}> Admin</MenuItem>
-                    <MenuItem component={<Link to="/registerDoctor" />}>Registrar</MenuItem>
+                    {/* <MenuItem component={<Link to="/admin" />} sx={{color: "primary"}}> Admin</MenuItem> */}
+                    <MenuItem component={<Link to="/createAppointment" />}>Crear cita</MenuItem>
                 </Menu>
             )}
             

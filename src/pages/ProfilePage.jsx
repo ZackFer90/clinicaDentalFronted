@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
+import { useNavigate } from "react-router-dom";
 
 // @MUI
 import {
@@ -36,11 +37,15 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import EmailTwoToneIcon from "@mui/icons-material/EmailTwoTone";
 import DateRangeTwoToneIcon from "@mui/icons-material/DateRangeTwoTone";
 import FmdGoodTwoToneIcon from "@mui/icons-material/FmdGoodTwoTone";
-import ImportContactsIcon from "@mui/icons-material/ImportContacts";
-import { grey } from "@mui/material/colors";
+import DeleteIcon from '@mui/icons-material/Delete';
+import CreateIcon from '@mui/icons-material/Create';
 
 //
 import userService from "../_services/userService";
+import doctorService from "../_services/doctorService";
+import { updateAppointment } from "../features/citas/updateAppointmentState";
+import { updateUser } from "../features/user/updateUserState";
+
 
 // ----------------------------------------------------------------------
 
@@ -55,13 +60,17 @@ const initialFormValues = {
 export default function ProfilePage() {
    // hooks
 //    const [showPassword, setShowPassword] = useState(false);
-    const [appointment, setappointment] = useState(false);
-    const [users, setUser] = useState({});
-    const [formValues, setFormValues] = useState(initialFormValues);
-    const [isLoading, setIsLoading] = useState(true);
+   const [appointments, setappointments] = useState(false);
+   const [users, setUser] = useState({});
+   const [formValues, setFormValues] = useState(initialFormValues);
+   const [isLoading, setIsLoading] = useState(true);
+   const userRole = useSelector((state) => state.auth.userInfo.role);
+   const isAdmin = userRole == "admin";
+   const isDoctor = userRole == "doctor";
 
     // glogal state hooks
     const token = useSelector((state) => state.auth.token);
+    const navigate = useNavigate();
 
     useEffect(() => {
       getProfile();
@@ -71,11 +80,17 @@ export default function ProfilePage() {
       setIsLoading(true);
       try {
          const data = await userService.getUser(token);
-         const appoint = await userService.getAppointment(token);
-         setappointment(appoint);
+         if(!isAdmin && !isDoctor){
+            const appoint = await userService.getAppointment(token);
+            setappointments(appoint);
+         }
+         // else if(isDoctor){
+         //    const appoint = await doctorService.getMyAppointment(token);
+         //    setappointments(appoint);
+         // }
          setUser(data);
          console.log(data);
-         console.log(appoint);
+         // console.log(appoint);
       } catch (error) {
          console.log(error);
       } finally {
@@ -83,52 +98,60 @@ export default function ProfilePage() {
       }
     };
 
-//    const saveProfile = async () => {
-//       setIsLoading(true);
-//       try {
-//          const data = await userService.getProfile(token);
-//          setUser(data);
-//          console.log(data);
-//          console.log(data.nombre);
-//       } catch (error) {
-//          console.log(error);
-//       } finally {
-//          setIsLoading(false);
-//       }
-//    };
+      const clickDelete = (value) =>{
+         const apointment = {
+            nombreDoctor: value.doctores.id,
+            fecha: value.fecha,
+         };
+         console.log(apointment);
+         // userService.deleteAppointment(token, apointment);
+      }
+
+      const changeAppointment = (value) =>{
+         console.log(value);
+         updateAppointment(value);
+         navigate(`/modifyCitas`);
+      }
+
+      const changeUser = (value) =>{
+         // console.log(value);
+         updateUser(value);
+         navigate(`/modifyProfile`);
+      }
 
    const StudentCourses = ({ appointment }) => {
-    //   function createData(name, category) {
-    //      return { name, category };
-    //   }
 
-    //   const rows = appointment.map((appoint) =>
-    //      createData(appoint.name, appoint.category)
-    //   );
-
+      console.log("En citas");
+      console.log(appointment);
       return (
          <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <TableRow>
-                     <TableCell>Name</TableCell>
-                     <TableCell align="right">Category</TableCell>
+                     <TableCell>Usuario</TableCell>
+                     <TableCell>Doctor</TableCell>
+                     <TableCell>Fecha</TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
                   {appointment.map((appoint) => (
                      <TableRow
-                        key={row.name}
-                        sx={{
-                           "&:last-child td, &:last-child th": { border: 0 },
-                        }}
+                        key={appoint.pacientes.id}
                      >
-                        <TableCell component="th" scope="row">
-                           {row.name}
+                        <TableCell>
+                           {appoint.pacientes.usuario.nombre}
                         </TableCell>
-                        <TableCell align="right">
-                           {" "}
-                           <Chip size="small" label={row.category} />{" "}
+                        <TableCell>
+                           {appoint.doctores.usuario.nombre}
+                        </TableCell>
+                        <TableCell>
+                           {format( new Date (appoint.fecha), "dd/MM/yyyy")}
+                        </TableCell>
+                        <TableCell>
+                           <Button startIcon={<DeleteIcon />} sx={{color: "red"}} onClick={()=> clickDelete(appoint)}/>
+                        </TableCell>
+                        <TableCell>
+                           <Button startIcon={<CreateIcon />} onClick={()=> changeAppointment(appoint)}/>
                         </TableCell>
                      </TableRow>
                   ))}
@@ -144,7 +167,7 @@ export default function ProfilePage() {
       <>
          {!isLoading && (
             <ThemeProvider theme={defaultTheme}>
-                {users.map((user) => (
+               {users.map((user) => (
                <Container key={user.id} component="main" maxWidth="md" sx={{ pb: 5 }}>
                   <Box
                      sx={{
@@ -207,20 +230,18 @@ export default function ProfilePage() {
                                 //secondary="Secondary text"
                             />
                         </ListItem>
-                        
                      </List>
+                     <Button variant="contained" onClick={()=> changeUser(user)}>Modificar</Button>
                   </Box>
-
-                     {/* {user.courses && ( */}
-                        <>
-                            <Box sx={{ mt: 5 }}>
-                            <Typography component="h3" variant="h5" gutterBottom>
-                                Citas
-                            </Typography>
-                            {/* <StudentCourses courses={appointment} /> */}
-                            </Box>
-
-                            <Box sx={{ mt: 5 }}>
+                  {appointments && (
+                     <Box sx={{ mt: 5 }}>
+                        <Typography component="h3" variant="h5" gutterBottom>
+                           Citas
+                        </Typography>
+                        <StudentCourses appointment={appointments} />
+                     </Box>
+                  )}
+                  <Box sx={{ mt: 5 }}>
                             {/* <Typography component="h3" variant="h5" gutterBottom>
                                 Courses
                             </Typography> */}
@@ -230,9 +251,7 @@ export default function ProfilePage() {
                                     label={`${user.nombre}/${user.apellidos}`}
                                 /> */}
                             {/* ))} */}
-                            </Box>
-                        </>
-                    {/* )} */}
+                  </Box>
                  
                </Container>
                ))}
