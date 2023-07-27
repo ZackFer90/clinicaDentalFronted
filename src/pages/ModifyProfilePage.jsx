@@ -54,7 +54,7 @@ export default function ModifyProfilePage({value}) {
       <>
          <Container  sm={{ width: 800, mt: 50, mb: 1 }} sx={{mt: 5}}>
             <Typography variant="h6" gutterBottom>
-               Profile User
+               Modify User
             </Typography>
             <Box component="form" sx={{ mt: 3 }} onSubmit={handleChange}>
                <Grid container spacing={2}>

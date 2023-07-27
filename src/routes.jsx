@@ -10,9 +10,11 @@ import RegisterPage from "./pages/RegisterPage";
 import GestionPages from "./pages/GestionPages";
 import RegisterDoctorPage from "./pages/RegisterDoctorPage";
 import ProfilePage from "./pages/ProfilePage";
-import CreateAppointmentPage from "./pages/CreateAppointmentPage";
 import ModifyProfilePage from "./pages/ModifyProfilePage";
 import ModifyAppointmentPage from "./pages/ModifyAppointmentPage";
+import DoctorPage from "./pages/DoctorPage";
+import CreateAppointmentPage from "./pages/createAppointmentPage";
+import SearchAppointmentPage from "./pages/SearchAppointmentPage";
 
 export default function AppRouter() {
    return (
@@ -29,6 +31,8 @@ export default function AppRouter() {
             <Route path="/modifyCitas" element={<ModifyAppointmentPage />} />
             <Route path="/createAppointment" element={<CreateAppointmentPage />} />
             <Route path="/modifyProfile" element={<ModifyProfilePage />} />
+            <Route path="/doctor" element={<DoctorPage />} />
+            <Route path="/search" element={<SearchAppointmentPage />} />
         </Routes>
       </div>
    );

@@ -16,16 +16,16 @@
 
 ## Objetivo
 
-Este proyecto requería una API funcional conectada a una base de datos con al menos una relación de uno a muchos y una relación de muchos a muchos.
+Este proyecto requería una API funcional conectada a una base de datos, a traves de esa conexion deve mostrar esas peticiones en React.
 
 ## Sobre el proyecto
 
-Aplicación de ejemplo para la gestión de una base de datos de una clínica dental. La gestión se realiza teniendo en cuenta los distintos tipos de roles (admin, user) y la autenticación basada en token.
+Aplicación de ejemplo para la gestión de una web de una clínica dental. La gestión se realiza teniendo en cuenta los distintos tipos de roles (admin, user, doctor) y mediante los End-Point enlazados.
 
 ## Deploy 🚀
 
 <div align="center">
-    <a href="https://github.com/ZackFer90/clinicaDental"><strong>Url a producción </strong></a>🚀🚀🚀
+    <a href="https://zackfer90.github.io/clinicaDentalFronted/"><strong>Url a producción </strong></a>🚀🚀🚀
 </div>
 
 ## Stack
@@ -47,9 +47,37 @@ Tecnologías utilizadas:
 </a>
  </div>
 
-## Diagrama BD
+## Imagenes Api
 
-!['imagen-db'](./TablasClinica.png)
+Inicio
+<img src="./public/imagenes/inicio.JPG">
+
+Login
+<img src="./public/imagenes/login.JPG">
+
+Registro
+<img src="./public/imagenes/register.JPG">
+
+Perfil
+<img src="./public/imagenes/perfil.JPG">
+
+Crear cita
+<img src="./public/imagenes/crearCita.JPG">
+
+Modificar cita
+<img src="./public/imagenes/modificarCita.JPG">
+
+Modificar perfil
+<img src="./public/imagenes/modificarUser.JPG">
+
+Buscar cita
+<img src="./public/imagenes/buscador.JPG">
+
+Doctores visualizar citas
+<img src="./public/imagenes/doctorCitas.JPG">
+
+Admin visualizar usuarios
+<img src="./public/imagenes/adminUsuarios.JPG">
 
 ## Instalación en local
 
@@ -58,179 +86,22 @@ Tecnologías utilizadas:
 3. Conectamos nuestro repositorio con la base de datos
 4. `$ npm run dev`
 
-## Endpoints
+## Usuarios
 
-<details>
-<summary>Endpoints</summary>
+- Paciente
+
+        "email": "Manuel@gmail.com",
+        "contrasena": "67890"
+
+- Doctor
+
+        "email": "pablo@gmail.com",
+        "contrasena": "12345"
 
 - Admin
 
-  - Ver los doctores
-
-          GET http://localhost:3000/admin//getAll-doctor?page=1
-
-    - Ver los doctores
-
-          GET http://localhost:3000/admin//getAll-patient?page=1
-
-  - Registrar un doctor
-
-          POST http://localhost:3000/admin/register-doctor
-
-    body:
-
-    ```js
-        {
-          "nombre": "Montse",
-          "apellidos": "Lorenzo",
-          "email": "Montse@gmail.com",
-          "contrasena": "123456",
-          "fecha_nacimiento": "1985-07-26"
-        }
-    ```
-
-  - Eliminar paciente
-
-            DELETE http://localhost:3000/admin/delete-patient
-
-    body:
-
-    ```js
-        {
-          "nombre": "Silvia"
-        }
-    ```
-
-    - Eliminar doctor
-
-            DELETE http://localhost:3000/admin/delete-doctor
-
-    body:
-
-    ```js
-        {
-          "nombre": "Montse"
-        }
-    ```
-
-- AUTH
-
-  - Registrar paciente
-
-          POST http://localhost:3000/auth/register
-
-    body:
-
-    ```js
-        {
-          "nombre": "Silvia",
-          "apellidos": "Gutierrez",
-          "email": "silvia@gmail.com",
-          "contrasena": "123456",
-          "fecha_nacimiento": "1985-07-26"
-        }
-    ```
-
-  - Login
-
-          POST http://localhost:3000/auth/login
-
-    body:
-
-    ```js
-        {
-          "email": "silvia@gmail.com",
-          "contrasena": "123456"
-        }
-    ```
-
-- DOCTORS
-
-  - Crear una cita
-
-          POST http://localhost:3000/doctor/create-Appointment
-
-    body:
-
-    ```js
-        {
-          "nombrePatient": "Silvia",
-          "fecha": "1990-06-16"
-        }
-    ```
-
-  - Ver los pacientes
-
-          GET http://localhost:3000/doctor?page=1
-
-  - Ver todas las citas de paciente con doctor
-
-          GET http://localhost:3000/doctor/get-Appointment?page=1
-
-  - Ver mis citas como doctor
-
-          GET http://localhost:3000/doctor/getMy-Appointment?page=1
-
-- USERS
-
-  - Crear cita como usuario
-
-          POST http://localhost:3000/user/create-Appointment
-
-    body:
-
-    ```js
-        {
-          "nombreDoctor": "Pablo",
-          "fecha": "1999-06-16"
-        }
-    ```
-
-  - Borrar cita
-
-        DELETE http://localhost:3000/user/delete-user
-
-    body:
-
-    ```js
-        {
-          "nombreDoctor": "Pablo",
-          "fecha": "1999-06-16"
-        }
-    ```
-
-  - Ver mis datos
-
-        GET http://localhost:3000/user
-
-  - Ver las citas
-
-        GET http://localhost:3000/user/get-Appointment?page=1
-
-  - Actualizar mi cita
-
-        PUT http://localhost:3000/user/update-Appointment
-
-    body:
-
-    ```js
-        {
-          "nombreDoctor": "Pablo",
-          "fecha": "1999-06-16"
-        }
-    ```
-
-  - Actualizar mis datos
-
-        PUT http://localhost:3000/user/update-user
-
-    body:
-
-    ```js
-        {
-          "apellidos": "Clupes"
-        }
-    ```
+        "email": "admin@gmail.com",
+        "contrasena": "12345"
 
 ## Contacto
 

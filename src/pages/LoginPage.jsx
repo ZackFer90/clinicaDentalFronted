@@ -84,7 +84,6 @@ export default function LoginPage() {
          const response = await authService.login(credentials);
          setError(null);
          updateAuthStateLogin(response.token);
-         console.log(response.token);
       } catch (error) {
          setError(error.response.data.message);
          console.log(error.response.data.message);

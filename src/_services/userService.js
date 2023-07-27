@@ -92,15 +92,23 @@ userService.getAppointment = async (token, page=1) => {
    return response.data;
 };
 
-userService.modifyAppointment = async (token, user) => {
+userService.searchAppointment = async (idCitas) => {
+   const options = {
+      method: "GET",
+      url: `${global.BASE_API_URL}/user/searchAppointment`,
+      data: idCitas,
+   };
+
+   // await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
+};
+
+userService.modifyAppointment = async (appoint) => {
    const options = {
       method: "PUT",
       url: `${global.BASE_API_URL}/user/update-Appointment`,
-      data: user,
-      headers: {
-         accept: "application/json",
-         Authorization: `Bearer ${token}`,
-      },
+      data: appoint,
    };
 
    // await sleep(2000); // TODO
@@ -111,7 +119,7 @@ userService.modifyAppointment = async (token, user) => {
 userService.deleteAppointment = async (token, user) => {
    const options = {
       method: "DELETE",
-      url: `${global.BASE_API_URL}/user/delete-user`,
+      url: `${global.BASE_API_URL}/user/delete-appoint`,
       data: user,
       headers: {
          accept: "application/json",

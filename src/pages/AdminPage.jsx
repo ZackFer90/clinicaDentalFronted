@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import format from "date-fns/format";
 import { Navigate, useNavigate } from "react-router-dom";
 
-// @MUI
 import { Box, Container, Pagination, Typography } from "@mui/material";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';

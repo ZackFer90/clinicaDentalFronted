@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
 import { useNavigate } from "react-router-dom";
+import "./GlobalBackground.scss";
 
 // @MUI
 import {
@@ -89,7 +90,7 @@ export default function ProfilePage() {
          //    setappointments(appoint);
          // }
          setUser(data);
-         console.log(data);
+         // console.log(data);
          // console.log(appoint);
       } catch (error) {
          console.log(error);
@@ -98,17 +99,21 @@ export default function ProfilePage() {
       }
     };
 
-      const clickDelete = (value) =>{
+      const clickDelete = async (value) =>{
+         
+         console.log(value);
          const apointment = {
-            nombreDoctor: value.doctores.id,
-            fecha: value.fecha,
+            idCita: value.id
          };
-         console.log(apointment);
-         // userService.deleteAppointment(token, apointment);
+         // console.log(apointment);
+         userService.deleteAppointment(token, apointment);
+
+         const appoint = await userService.getAppointment(token);
+         setappointments(appoint);
       }
 
       const changeAppointment = (value) =>{
-         console.log(value);
+         // console.log(value);
          updateAppointment(value);
          navigate(`/modifyCitas`);
       }
@@ -119,15 +124,16 @@ export default function ProfilePage() {
          navigate(`/modifyProfile`);
       }
 
-   const StudentCourses = ({ appointment }) => {
+   const AppointmentsView = ({ appointment }) => {
 
-      console.log("En citas");
-      console.log(appointment);
+      // console.log("En citas");
+      // console.log(appointment);
       return (
          <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <TableRow>
+                     <TableCell>Numero cita</TableCell>
                      <TableCell>Usuario</TableCell>
                      <TableCell>Doctor</TableCell>
                      <TableCell>Fecha</TableCell>
@@ -138,6 +144,9 @@ export default function ProfilePage() {
                      <TableRow
                         key={appoint.pacientes.id}
                      >
+                        <TableCell>
+                           {appoint.id}
+                        </TableCell>
                         <TableCell>
                            {appoint.pacientes.usuario.nombre}
                         </TableCell>
@@ -164,7 +173,7 @@ export default function ProfilePage() {
    // ----------------------------------------------------------------------
 
    return (
-      <>
+      <div>
          {!isLoading && (
             <ThemeProvider theme={defaultTheme}>
                {users.map((user) => (
@@ -238,7 +247,7 @@ export default function ProfilePage() {
                         <Typography component="h3" variant="h5" gutterBottom>
                            Citas
                         </Typography>
-                        <StudentCourses appointment={appointments} />
+                        <AppointmentsView appointment={appointments} />
                      </Box>
                   )}
                   <Box sx={{ mt: 5 }}>
@@ -257,6 +266,6 @@ export default function ProfilePage() {
                ))}
             </ThemeProvider>
          )}
-      </>
+      </div>
    );
 }

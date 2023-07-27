@@ -34,7 +34,7 @@ doctorService.createAppointment = async (token, data) => {
     return response.data;
 };
 
-doctorService.getAllAppointment = async (token, page = 1) => {
+doctorService.getAllAppointment = async (token, page) => {
     const options = {
        method: "GET",
        url: `${global.BASE_API_URL}/doctor/get-Appointment`,
@@ -49,7 +49,7 @@ doctorService.getAllAppointment = async (token, page = 1) => {
     return response.data;
 };
 
-doctorService.getMyAppointment = async (token, page = 1) => {
+doctorService.getMyAppointment = async (token, page) => {
     const options = {
        method: "GET",
        url: `${global.BASE_API_URL}/doctor/getMy-Appointment`,
@@ -62,6 +62,22 @@ doctorService.getMyAppointment = async (token, page = 1) => {
     //await sleep(2000); // TODO
     const response = await axios.request(options);
     return response.data;
+};
+
+doctorService.deleteAppointment = async (token, appoint) => {
+   const options = {
+      method: "DELETE",
+      url: `${global.BASE_API_URL}/doctor/delete-appoint`,
+      data: appoint,
+      headers: {
+         accept: "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   };
+
+   // await sleep(2000); // TODO
+   const response = await axios.request(options);
+   return response.data;
 };
 
 export default doctorService;

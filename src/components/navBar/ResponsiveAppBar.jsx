@@ -21,6 +21,7 @@ import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import AppRegistrationTwoToneIcon from "@mui/icons-material/AppRegistrationTwoTone";
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import Chip from '@mui/material/Chip';
+import VaccinesIcon from '@mui/icons-material/Vaccines';
 
 //
 import "./ResponsiveAppBar.scss";
@@ -228,6 +229,22 @@ function ResponsiveAppBar() {
                               color: "white",
                            }}
                            label="Admin panel"
+                        />
+                     </NavLink>
+                  </Box>
+               )}
+               {isDoctor && (
+                  <Box sx={{ flexGrow: 0, display: { xs: "flex" }, mr: 4 }}>
+                     <NavLink style={{ textDecoration: "none" }}>
+                        <Chip
+                           variant="contained"
+                           sx={{
+                              boxShadow: 3,
+                              color: "white",
+                              backgroundColor: "#757ce8",
+                           }}
+                           icon={<VaccinesIcon sx={{ color: "white" }}/>}
+                           label="Doctor panel"
                         />
                      </NavLink>
                   </Box>
