@@ -16,7 +16,7 @@
 
 ## Objetivo
 
-Este proyecto requería una API funcional conectada a una base de datos, a traves de esa conexion deve mostrar esas peticiones en React.
+Este proyecto requería una API funcional conectada a una base de datos, a traves de esa conexion debe mostrar esas peticiones en React.
 
 ## Sobre el proyecto
 
