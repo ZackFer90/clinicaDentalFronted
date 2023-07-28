@@ -92,11 +92,15 @@ userService.getAppointment = async (token, page=1) => {
    return response.data;
 };
 
-userService.searchAppointment = async (idCitas) => {
+userService.searchAppointment = async (token, idCitas) => {
    const options = {
-      method: "GET",
+      method: "PUT",
       url: `${global.BASE_API_URL}/user/searchAppointment`,
       data: idCitas,
+      headers: {
+         accept: "application/json",
+         Authorization: `Bearer ${token}`,
+      },
    };
 
    // await sleep(2000); // TODO
