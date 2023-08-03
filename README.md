@@ -39,6 +39,12 @@ Tecnologías utilizadas:
 <a href="https://developer.mozilla.org/es/docs/Web/JavaScript">
     <img src= "https://img.shields.io/badge/javascipt-EFD81D?style=for-the-badge&logo=javascript&logoColor=black"/>
 </a>
+<a href="https://developer.mozilla.org/es/docs/Web/JavaScript">
+    <img src= "https://img.shields.io/badge/React-0A497B?style=for-the-badge&logo=React&logoColor=white"/>
+</a>
+<a href="https://developer.mozilla.org/es/docs/Web/JavaScript">
+    <img src= "https://img.shields.io/badge/SCSS-008f39?style=for-the-badge&logo=CSS&logoColor=black"/>
+</a>
  </div>
 
 ## Imagenes Api
@@ -79,6 +85,12 @@ Admin visualizar usuarios
 2. `$ npm install`
 3. Conectamos nuestro repositorio con la base de datos
 4. `$ npm run dev`
+
+## Backend
+
+  - Enlace
+
+      https://github.com/ZackFer90/clinicaDental
 
 ## Usuarios
 
