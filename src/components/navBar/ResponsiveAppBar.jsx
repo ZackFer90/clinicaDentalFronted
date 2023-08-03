@@ -145,6 +145,15 @@ function ResponsiveAppBar() {
                            </MenuItem>
                         </NavLink>
                      ))}
+                     {isLoggedIn && (
+                     <NavLink style={{ textDecoration: "none" }} to="/gestion">
+                        <MenuItem onClick={handleCloseNavMenu}>
+                           <Typography textAlign="center">
+                              Gestiones
+                           </Typography>
+                        </MenuItem>
+                     </NavLink>
+                     )}
                   </Menu>
                </Box>
                <MedicalServicesOutlinedIcon

@@ -30,30 +30,30 @@ export default function CreateAppointmentPage() {
    const navigate = useNavigate();
 
    const doctorsObject = [
-      {
-         id: 2,
-         name: "Pablo",
-      },
-      {
-         id: 6,
-         name: "Manuel",
-      },
-      {
-         id: 11,
-         name: "Isabel",
-      },
-      {
-         id: 19,
-         name: "Verónica",
-      },
-      {
-         id: 24,
-         name: "Andrés",
-      },
-      {
-         id: 27,
-         name: "Lucía",
-      }
+      // {
+      //    id: 2,
+      //    name: "Pablo",
+      // },
+      // {
+      //    id: 6,
+      //    name: "Manuel",
+      // },
+      // {
+      //    id: 11,
+      //    name: "Isabel",
+      // },
+      // {
+      //    id: 19,
+      //    name: "Verónica",
+      // },
+      // {
+      //    id: 24,
+      //    name: "Andrés",
+      // },
+      // {
+      //    id: 27,
+      //    name: "Lucía",
+      // }
    ];
 
    useEffect(() => {
@@ -154,8 +154,8 @@ export default function CreateAppointmentPage() {
                                  name="doctor"
                                  onChange={handle}
                               >
-                                 {doctorsObject.map((doc, index) => (
-                                       <MenuItem value={doc.name} key={index}>{doc.name}</MenuItem>
+                                 {doctors.map((doc, index) => (
+                                       <MenuItem value={doc.nombre} key={index}>{doc.nombre}</MenuItem>
                                  ))}
                                  {/* <MenuItem value={20}>Twenty</MenuItem>
                                  <MenuItem value={30}>Thirty</MenuItem> */}
